@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "cvd-dashboard"
+version = "0.1.0"
+description = ""
+authors = ["Kausik D <kausikdevanathan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = {extras = ["all"], version = "^3.1.0"}
+flask-wtf = "^1.2.2"
+flask-sqlalchemy = "^3.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
