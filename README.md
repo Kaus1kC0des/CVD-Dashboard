@@ -1,5 +1,3 @@
-Still building the workspace index, response may be less accurate.
-
 # CVD Dashboard
 
 ## Overview
