@@ -152,20 +152,15 @@ fetchMetrics.py
 
 - **Description**: Fetches CVE metrics from the NVD API and stores it in the database.
 
-## Unit Testing
-
-- **Framework**: `unittest`
-- **Description**: Write unit tests for all functionalities to ensure code quality and reliability.
 
 ## Best Practices
 
-- Follow PEP 8 coding standards.
-- Use environment variables for sensitive information.
-- Write clear and concise code with proper documentation.
-- Ensure data quality through data cleansing and de-duplication.
-- Implement error handling and logging for debugging and monitoring.
+- Used environment variables for sensitive information.
+- Wrote clear and concise code with proper documentation.
+- Ensured data quality through data cleansing and de-duplication.
+- Implemented error handling and logging for debugging and monitoring.
 
 
 ## Contact
 
-For any questions or inquiries, please contact [Kausik D](mailto:kausikdevanathan@gmail.com).
+For any questions or inquiries, please feel free to reach out to me.
