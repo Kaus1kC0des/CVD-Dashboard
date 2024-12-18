@@ -6,14 +6,14 @@ The CVD Dashboard is a web application designed to consume CVE (Common Vulnerabi
 
 ## Features
 
-1. **Consume CVE Information**: Retrieve CVE data from the NVD API and store it in a MySQL database.
-2. **Data Cleansing & De-duplication**: Ensure data quality by applying data cleansing and de-duplication techniques.
-3. **Periodic Synchronization**: Synchronize CVE details into the database periodically in batch mode.
-4. **API Endpoints**: Provide APIs to read and filter CVE details by various parameters.
-5. **UI Visualization**: Visualize CVE data in a user-friendly interface using HTML, CSS, and JavaScript.
-6. **Pagination and Sorting**: Implement server-side pagination and sorting for efficient data retrieval.
-7. **API Documentation**: Provide detailed documentation for each API operation.
-8. **Unit Testing**: Write well-defined unit test cases for all functionalities.
+1. **Consume CVE Information**: Retrieved CVE data from the NVD API and store it in a MySQL database.
+2. **Data Cleansing & De-duplication**: Ensured data quality by applying data cleansing and de-duplication techniques.
+3. **Periodic Synchronization**: Synchronized CVE details into the database periodically in batch mode.
+4. **API Endpoints**: Provides APIs to read and filter CVE details by various parameters.
+5. **UI Visualization**: Visualizes CVE data in a user-friendly interface using HTML, CSS, and JavaScript.
+6. **Pagination and Sorting**: Implemented server-side pagination and sorting for efficient data retrieval.
+7. **API Documentation**: Provided detailed documentation for each API operation.
+
 
 ## Directory Structure
 
@@ -58,11 +58,7 @@ The CVD Dashboard is a web application designed to consume CVE (Common Vulnerabi
     ```
 
 3. **Set up environment variables**:
-    Create a 
-
-.env
-
- file in the root directory with the following content:
+    Create a .env file in the root directory with the following content:
     ```env
     SECRET_KEY=<your-secret-key>
     SQLALCHEMY_DATABASE_URI=mysql+pymysql://<username>:<password>@<host>/<database>
@@ -93,72 +89,37 @@ The CVD Dashboard is a web application designed to consume CVE (Common Vulnerabi
 
 ### Retrieve CVE Details
 
-- **GET /cves/list**
-    - Retrieves a list of CVE details.
-    - Query Parameters:
-        - 
+- **GET /**
+    - Retrieves a list of all available CVE details.
 
-resultsPerPage
-
-: Number of results per page (default: 10).
-        - `page`: Page number (default: 1).
-
-- **GET /cve/<id>**
+- **GET /cve/{id}**
     - Retrieves details of a specific CVE by ID.
 
-### Filter CVE Details
-
-- **GET /cves/filter**
-    - Filters CVE details by various parameters.
-    - Query Parameters:
-        - `cve_id`: Filter by CVE ID.
-        - `year`: Filter by year.
-        - 
-
-score
-
-: Filter by CVE score.
-        - `last_modified`: Filter by last modified date (in days).
 
 ## UI Pages
 
 ### Home Page
 
 - **Route**: `/`
-- **Description**: Displays a list of CVE details with pagination and sorting options.
+- **Description**: Displays a list of CVE details.
 
 ### CVE Details Page
 
 - **Route**: `/cve/<id>`
-- **Description**: Displays detailed information about a specific CVE.
+- **Description**: Displays detailed information about a specific CVE, given its `id`.
 
 ## Data Synchronization
 
 ### Fetch CVE Data
 
-- **Script**: 
-
-fetch.py
-
+- **Script**: fetch.py
 
 - **Description**: Fetches CVE data from the NVD API and stores it in the database.
 
 ### Fetch CVE Metrics
 
-- **Script**: 
-
-fetchMetrics.py
-
-
+- **Script**: fetchMetrics.py
 - **Description**: Fetches CVE metrics from the NVD API and stores it in the database.
-
-
-## Best Practices
-
-- Used environment variables for sensitive information.
-- Wrote clear and concise code with proper documentation.
-- Ensured data quality through data cleansing and de-duplication.
-- Implemented error handling and logging for debugging and monitoring.
 
 
 ## Contact
