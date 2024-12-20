@@ -1,13 +1,28 @@
-from flask import render_template, url_for, redirect, request
+from flask import render_template, url_for, redirect, request, abort
 from cveFlask import app
 from cveFlask.models import CVE, CVSSMetrics, Configuration, Description, Reference, Weakness
 import os
 
+ITEMS_PER_PAGE = 50
 
 @app.route("/")
-def index():
-    cves = CVE.query.all()
-    return render_template('home.html', cves=cves)
+@app.route("/page/<int:page>")
+def index(page=1):
+    try:
+        pagination = CVE.query.order_by(CVE.published_date.desc()).paginate(
+            page=page, 
+            per_page=ITEMS_PER_PAGE,
+            error_out=True
+        )
+        return render_template(
+            'home.html',
+            cves=pagination.items,
+            pagination=pagination,
+            current_page=page,
+            total_pages=pagination.pages
+        )
+    except Exception as e:
+        abort(404)
 
 
 @app.route("/cve/<cve_id>")
