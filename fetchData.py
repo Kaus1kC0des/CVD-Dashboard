@@ -1,13 +1,13 @@
-import os
-import requests
 import logging
 from datetime import datetime
+
+import requests
 from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter, Retry
-from sqlalchemy.dialects.postgresql import insert
+from tqdm import tqdm
+
 from cveFlask import app, db
 from cveFlask.models import CVE, CVSSMetrics, Configuration, Description, Reference, Weakness
-from tqdm import tqdm
 
 # Configuration
 logging.basicConfig(level=logging.INFO)
@@ -19,8 +19,17 @@ RESULTS_PER_PAGE = 2000
 CHUNK_SIZE = 500
 MAX_RETRIES = 5
 
+
 def extract_cvss_metrics(metrics):
-    """Extract CVSS metrics from vulnerability data"""
+    """
+    Extract CVSS metrics from vulnerability data.
+
+    Args:
+        metrics (dict): The metrics data from the vulnerability.
+
+    Returns:
+        CVSSMetrics: An instance of the CVSSMetrics model with extracted data.
+    """
     if not metrics:
         return None
 
@@ -48,8 +57,17 @@ def extract_cvss_metrics(metrics):
         availability_impact=cvss_data.get("availabilityImpact")
     )
 
+
 def process_vulnerability(vuln_data):
-    """Process single vulnerability"""
+    """
+    Process a single vulnerability.
+
+    Args:
+        vuln_data (dict): The vulnerability data.
+
+    Returns:
+        CVE: An instance of the CVE model with processed data, or None if processing fails.
+    """
     try:
         cve_data = vuln_data.get('cve', {})
         if not cve_data:
@@ -124,8 +142,14 @@ def process_vulnerability(vuln_data):
         logger.error(f"Error processing vulnerability: {str(e)}")
         return None
 
+
 def write_chunk_to_db(vulnerabilities):
-    """Write chunk of vulnerabilities to database"""
+    """
+    Write a chunk of vulnerabilities to the database.
+
+    Args:
+        vulnerabilities (list): List of vulnerability data to be written to the database.
+    """
     with app.app_context():
         try:
             cve_list = []
@@ -172,8 +196,17 @@ def write_chunk_to_db(vulnerabilities):
             logger.error(f"Database error: {str(e)}")
             db.session.rollback()
 
+
 def fetch_vulnerabilities(start_index):
-    """Fetch vulnerabilities from API with retry"""
+    """
+    Fetch vulnerabilities from the API with retry.
+
+    Args:
+        start_index (int): The starting index for fetching vulnerabilities.
+
+    Returns:
+        list: List of vulnerabilities fetched from the API, or None if the request fails.
+    """
     url = f"{BASE_URL}/?resultsPerPage={RESULTS_PER_PAGE}&startIndex={start_index}"
 
     retry_strategy = Retry(
@@ -192,8 +225,11 @@ def fetch_vulnerabilities(start_index):
             logger.error(f"API request failed: {str(e)}")
             return None
 
+
 def main():
-    """Main execution function"""
+    """
+    Main execution function to fetch and process vulnerabilities.
+    """
     idx = 0
     max_pages = 137
 
@@ -219,6 +255,7 @@ def main():
 
             idx += 1
             pbar.update(1)
+
 
 if __name__ == "__main__":
     main()

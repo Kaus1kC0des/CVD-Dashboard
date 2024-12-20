@@ -1,127 +1,87 @@
-# CVD Dashboard
-
-## Overview
-
-The CVD Dashboard is a web application designed to consume CVE (Common Vulnerabilities and Exposures) information from the NVD (National Vulnerability Database) API, store it in a database, and provide a user-friendly interface to view and filter the CVE details. The application is built using Flask, a lightweight WSGI web application framework in Python, and uses MySQL as the database.
-
-## Features
-
-1. **Consume CVE Information**: Retrieved CVE data from the NVD API and store it in a MySQL database.
-2. **Data Cleansing & De-duplication**: Ensured data quality by applying data cleansing and de-duplication techniques.
-3. **Periodic Synchronization**: Synchronized CVE details into the database periodically in batch mode.
-4. **API Endpoints**: Provides APIs to read and filter CVE details by various parameters.
-5. **UI Visualization**: Visualizes CVE data in a user-friendly interface using HTML, CSS, and JavaScript.
-6. **Pagination and Sorting**: Implemented server-side pagination and sorting for efficient data retrieval.
-7. **API Documentation**: Provided detailed documentation for each API operation.
-
-
-## Directory Structure
-
-```
-.
-├── app.py
-├── cveFlask
-│   ├── __init__.py
-│   ├── models.py
-│   ├── routes.py
-│   ├── static
-│   │   └── main.css
-│   └── templates
-│       ├── cve.html
-│       ├── home.html
-│       └── layout.html
-├── fetch.py
-├── fetchMetrics.py
-├── poetry.lock
-└── pyproject.toml
-```
-
-## Setup Instructions
+## Setup and Installation
 
 ### Prerequisites
 
-- Python 3.10
-- MySQL
-- Poetry (for dependency management)
+- Python 3.8+
+- PostgreSQL
+- `pip` (Python package installer)
 
-### Installation
+### Installation Steps
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/Kaus1kC0des/CVD-Dashboard.git
-    cd CVD-Dashboard
+    git clone https://github.com/Kaus1kC0des/cve-dashboard.git
+    cd cve-dashboard
     ```
 
-2. **Install dependencies**:
+2. **Create and activate a virtual environment**:
     ```sh
-    poetry install
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-3. **Set up environment variables**:
-    Create a .env file in the root directory with the following content:
+3. **Install the required packages**:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+4. **Set up the environment variables**:
+   Create a `.env` file in the root directory and add the following variables:
     ```env
-    SECRET_KEY=<your-secret-key>
-    SQLALCHEMY_DATABASE_URI=mysql+pymysql://<username>:<password>@<host>/<database>
-    DB_URI=<your-db-uri>
-    DB_USERNAME=<your-db-username>
-    DB_PWD=<your-db-password>
-    DB_SCHEMA=<your-db-schema>
+    SECRET_KEY=your_secret_key
+    SQLALCHEMY_DATABASE_URI=postgresql://username:password@localhost/dbname
+    DB_SCHEMA=your_db_schema
     ```
 
-4. **Initialize the database**:
+5. **Initialize the database**:
     ```sh
-    python -m flask db init
-    python -m flask db migrate
-    python -m flask db upgrade
+    flask db init
+    flask db migrate -m "Initial migration."
+    flask db upgrade
     ```
 
-### Running the Application
-
-1. **Start the Flask application**:
+6. **Fetch and populate CVE data**:
     ```sh
-    python app.py
+    python fetchData.py
     ```
 
-2. **Access the application**:
-    Open your web browser and navigate to `http://localhost:5000`.
+7. **Run the Flask application**:
+    ```sh
+    flask run
+    ```
 
-## API Endpoints
+## Usage
 
-### Retrieve CVE Details
+### Accessing the Dashboard
 
-- **GET /**
-    - Retrieves a list of all available CVE details.
+Open your web browser and navigate to `http://127.0.0.1:5000/` to access the CVE Dashboard.
 
-- **GET /cve/{id}**
-    - Retrieves details of a specific CVE by ID.
+### Searching and Sorting
 
+- Use the search bar to find CVEs by ID or source identifier.
+- Use the sort dropdown to sort CVEs by published date, last modified date, or status.
 
-## UI Pages
+### Viewing CVE Details
 
-### Home Page
+Click on a CVE ID to view detailed information about the CVE, including metrics, configurations, descriptions, references, and weaknesses.
 
-- **Route**: `/`
-- **Description**: Displays a list of CVE details.
+## Contributing
 
-### CVE Details Page
+Contributions are welcome! Please follow these steps to contribute:
 
-- **Route**: `/cve/<id>`
-- **Description**: Displays detailed information about a specific CVE, given its `id`.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a pull request.
 
-## Data Synchronization
+## License
 
-### Fetch CVE Data
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
-- **Script**: fetch.py
+## Acknowledgements
 
-- **Description**: Fetches CVE data from the NVD API and stores it in the database.
-
-### Fetch CVE Metrics
-
-- **Script**: fetchMetrics.py
-- **Description**: Fetches CVE metrics from the NVD API and stores it in the database.
-
-
-## Contact
-
-For any questions or inquiries, please feel free to reach out to me.
+- [NVD API](https://nvd.nist.gov/vuln/data-feeds) for providing the CVE data.
+- [Flask](https://flask.palletsprojects.com/) for the web framework.
+- [Bootstrap](https://getbootstrap.com/) for the frontend framework.
