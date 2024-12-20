@@ -14,20 +14,20 @@
 {% block content %}
         <table class="table">
             <thead>
-                <th>CVE ID</th>
-                <th>IDENTIFIER</th>
-                <th>PUBLISHED DATE</th>
-                <th>LAST MODIFIED DATE</th>
-                <th>STATUS</th>
+                <td>CVE ID</td>
+                <td>IDENTIFIER</td>
+                <td>PUBLISHED DATE</td>
+                <td>LAST MODIFIED DATE</td>
+                <td>STATUS</td>
             </thead>
             <tbody>
                 {% for cve in cves %}
                     <tr>
-                        <td><a href="{{url_for('cve', id=cve[0])}}">{{cve[0]}}</a></td>
-                        <td>{{ cve[1] }}</td>
-                        <td>{{ cve[2] }}</td>
-                        <td>{{ cve[3] }}</td>
-                        <td>{{ cve[4] }}</td>
+                        <td><a href="{{url_for('cve', cve_id=cve.id)}}">{{cve.id}}</a></td>
+                        <td>{{ cve.source_identifier }}</td>
+                        <td>{{ cve.published_date }}</td>
+                        <td>{{ cve.last_modified_date }}</td>
+                        <td>{{ cve.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

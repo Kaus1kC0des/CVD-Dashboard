@@ -10,15 +10,15 @@
 
 <body>
 
-  <h1>{{cve[0]}}</h1>
+  <h1>{{cve.cve_id}}</h1>
   <br>
   <h3>Description</h3>
-  <p>{{cve[-1]}}</p>
+  <p>{{cve.configurations}}</p>
   <br>
   <h3>CVSS V2 METRICS</h3>
-  <p><bold>Severity: </bold> {{ metrics[1] }}</p>
-  <p><bold>Score: </bold> {{ metrics[2] }}</p>
-  <p><bold>Vector String: </bold> {{ metrics[3] }}</p>
+  <p><bold>Severity: </bold> {{ metrics.base_severity }}</p>
+  <p><bold>Score: </bold> {{ metrics.base_score }}</p>
+  <p><bold>Vector String: </bold> {{ metrics.vector_string }}</p>
 
   <table>
     <thead>
@@ -31,12 +31,12 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{ cvssData[0] }}</td>
-        <td> {{ cvssData[1] }} </td>
-        <td> {{ cvssData[2] }} </td>
-        <td>{{cvssData[3]}}</td>
-        <td>{{ cvssData[4] }}</td>
-        <td>{{ cvssData[5] }}</td>
+        <td>{{ metrics.access_vector }}</td>
+        <td> {{ metrics.access_complexity }} </td>
+        <td> {{ metrics.authentication }} </td>
+        <td>{{ metrics.confidentiality_impact }}</td>
+        <td>{{ metrics.integrity_impact }}</td>
+        <td>{{ metrics.availability_impact }}</td>
       </tr>
     </tbody>
   </table>
