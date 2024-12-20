@@ -8,9 +8,27 @@ ITEMS_PER_PAGE = 50
 @app.route("/")
 @app.route("/page/<int:page>")
 def index(page=1):
+    search_query = request.args.get('search', '')
+    sort_by = request.args.get('sort', 'published_date')
+
+    query = CVE.query
+
+    if search_query:
+        query = query.filter(
+            (CVE.id.ilike(f'%{search_query}%')) |
+            (CVE.source_identifier.ilike(f'%{search_query}%'))
+        )
+
+    if sort_by == 'published_date':
+        query = query.order_by(CVE.published_date.asc())
+    elif sort_by == 'last_modified_date':
+        query = query.order_by(CVE.last_modified_date.asc())
+    elif sort_by == 'status':
+        query = query.order_by(CVE.status.asc())
+
     try:
-        pagination = CVE.query.order_by(CVE.published_date.desc()).paginate(
-            page=page, 
+        pagination = query.paginate(
+            page=page,
             per_page=ITEMS_PER_PAGE,
             error_out=True
         )
@@ -19,11 +37,12 @@ def index(page=1):
             cves=pagination.items,
             pagination=pagination,
             current_page=page,
-            total_pages=pagination.pages
+            total_pages=pagination.pages,
+            search_query=search_query,
+            sort_by=sort_by
         )
     except Exception as e:
         abort(404)
-
 
 @app.route("/cve/<cve_id>")
 def cve(cve_id):
